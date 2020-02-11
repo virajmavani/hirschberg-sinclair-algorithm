@@ -39,6 +39,6 @@ public class leaderElection{
             System.out.println("The round number," + Globals.roundNumber + "starts");
 
             Globals.roundStarts.signalAll(); //all threads signalled
-
+        }
     }
 }
