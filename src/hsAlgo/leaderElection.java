@@ -10,16 +10,13 @@ import java.util.ArrayList;
 public class leaderElection{
     public void Run(int[] processIds) {
         //master spawns new threads
-        ArrayList<Process> threads = new ArrayList<Process>();
+        ArrayList<Process> pool = new ArrayList<Process>();
         int n = processIds.length;
-        Lock roundBegin = new RentrantLock(); // roundBegin is the lock and roundStarts in the condition that all processes wait on
-        Condition roundStarts = roundBegin.newCondition();
 
         MessageChannel first_send = new MessageChannel();
         MessageChannel first_receive = new MessageChannel();
         MessageChannel send_to_pred = first_send;
         MessageChannel recv_from_pred = first_receive;
-
 
         for (int i = 0; i < n; i++) {
             MessageChannel send_to_succ;
@@ -34,11 +31,17 @@ public class leaderElection{
             Process p = new Process(ids.get(i), send_to_pred, send_to_succ, recv_from_pred, recv_from_succ);
             send_to_pred = send_to_succ;
             p.start();
-            threads.add(p);
+            pool.add(p);
         }
 
         while( ) { //condition to check whether round
-            roundStarts.signalAll();
+            Globals.roundBegins.lock(); //lock acquired
+
+            Globals.roundNumber++; //round number incremented
+
+            System.out.println("The round number," + Globals.roundNumber + "starts");
+
+            Globals.roundStarts.signalAll(); //all threads signalled
         }
     }
 }

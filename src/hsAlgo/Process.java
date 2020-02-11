@@ -23,7 +23,32 @@ class Process extends Thread {
 
     @Override
     public void run() {
-        // start execution when receive signal from master to begin round
+        //thread acquires lock
+        Globals.roundStarts.lock();
+
+        if( this.status == -1 ) { //It is unknown / not yet defeated
+            // start execution when receive signal from master to begin round
+            Globals.roundStarts.await();
+
+            //Begin the HS algorithm
+
+            /* Message generation function */
+
+            //message to predecessor
+            Message msgPred = new Message(this.uid, 1, );
+
+            //message to successor
+            Message msgSucc = new Message(this.uid, 1, )
+
+            this.send_to_pred.SendMessage(msgPred);
+            this.send_to_succ.SendMessage(msgSucc);
+
+            /* Transition Function */
+
+
+
+        }
+
 
     }
 }
