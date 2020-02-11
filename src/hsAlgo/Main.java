@@ -23,6 +23,8 @@ public class Main{
             ids.add(id);
         }
 
+        br.close();
+
         master.Run( ids );
     }
 }
