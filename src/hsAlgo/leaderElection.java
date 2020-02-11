@@ -1,18 +1,14 @@
 package hsAlgo;
 
 import java.util.concurrent.locks.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class leaderElection{
-    public void Run(int[] processIds) {
+    public void Run(ArrayList<Integer> processIds) {
         //master spawns new threads
         ArrayList<Process> threads = new ArrayList<Process>();
-        int n = processIds.length;
-        Lock roundBegin = new RentrantLock(); // roundBegin is the lock and roundStarts in the condition that all processes wait on
+        int n = processIds.size();
+        Lock roundBegin = new ReentrantLock(); // roundBegin is the lock and roundStarts in the condition that all processes wait on
         Condition roundStarts = roundBegin.newCondition();
 
         MessageChannel first_send = new MessageChannel();
@@ -31,13 +27,13 @@ public class leaderElection{
                 send_to_succ = new MessageChannel();
                 recv_from_succ = new MessageChannel();
             }
-            Process p = new Process(ids.get(i), send_to_pred, send_to_succ, recv_from_pred, recv_from_succ);
+            Process p = new Process(processIds.get(i), send_to_pred, send_to_succ, recv_from_pred, recv_from_succ);
             send_to_pred = send_to_succ;
             p.start();
             threads.add(p);
         }
 
-        while( ) { //condition to check whether round
+        while( true ) { //condition to check whether round
             roundStarts.signalAll();
         }
     }
