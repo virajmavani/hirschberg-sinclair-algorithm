@@ -1,24 +1,29 @@
 package hsAlgo;
 
-class MessageChannel {
-    Message msg;
-    boolean msg_sent;
-    public MessageChannel() {
-        this.msg_sent = false;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
+
+public class MessageChannel {
+    private final Lock msgLock = new ReentrantLock();
+    private final Condition msgSent = msgLock.newCondition();
+
+    public void SendMessage(Message msg) {
+        //acquire a lock to write
+        msgLock.lock();
+
+        //writing the message to queue and signal the waiting thread to read the message
+        try {
+
+        } catch (Exception e) {
+            System.out.println("Unable to send message. Exited with exception: "+e);
+        } finally {
+            msgLock.unlock();
+
+        }
     }
 
-    public void Send(Message msg) {
-        this.msg = msg;
-        this.msg_sent = true;
-    }
+    public void ReceiveMessage(Message msg) {
 
-    public Message Receive() {
-        if (this.msg_sent) {
-            this.msg_sent = false;
-            return this.msg;
-        }
-        else {
-            return new Message(0, "", 0);
-        }
     }
 }
