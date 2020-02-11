@@ -38,7 +38,7 @@ class Process extends Thread {
             Message msgPred = new Message(this.uid, 1, );
 
             //message to successor
-            Message msgSucc = new Message(this.uid, 1, )
+            Message msgSucc = new Message(this.uid, 1, );
 
             this.send_to_pred.SendMessage(msgPred);
             this.send_to_succ.SendMessage(msgSucc);
