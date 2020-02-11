@@ -31,14 +31,18 @@ public class leaderElection{
         }
 
 
-        while( ) { //condition to check whether round
-            Globals.roundBegins.lock(); //lock acquired
+        while(  ) { //condition to check whether round
+            Globals.phaseBegins.lock(); //lock acquired
+            
+            Globals.phaseNumber++; //round number incremented
 
-            Globals.roundNumber++; //round number incremented
+            System.out.println("The round number," + Globals.phaseNumber + "starts");
 
-            System.out.println("The round number," + Globals.roundNumber + "starts");
+            Globals.phaseStarts.signalAll(); //all threads signalled
 
-            Globals.roundStarts.signalAll(); //all threads signalled
+            while(Globals.endedProcesses != n);
+
+            Globals.endedProcesses = 0;
         }
     }
 }

@@ -9,12 +9,14 @@ public class MessageChannel {
     Message message;
 
     public void SendMessage(Message msg) {
-        //acquire a lock to write
+        // acquire a lock to write
         msgLock.lock();
 
-        //writing the message to queue and signal the waiting thread to read the message
+        // writing the message to queue and signal the waiting thread to read the message
         try {
-            msgRead.wait();
+            while (this.message != null) {
+                msgRead.await();
+            }
             this.message = msg;
             msgSent.signalAll();
         } catch (Exception e) {
@@ -28,11 +30,13 @@ public class MessageChannel {
     public Message ReceiveMessage() {
         // acquire lock to read the message content
         msgLock.lock();
-        Message msg = new Message(0, (byte) 0, 0);
+        Message msg = new Message(0, "", 0);
 
         // reading the message and signal that waiting thread can write 
         try {
-            msgSent.wait();
+            while ( this.message == null) {
+                msgSent.await();
+            }
             msg = this.message;
             this.message = null;
             msgRead.signalAll();
