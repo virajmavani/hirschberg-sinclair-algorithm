@@ -24,7 +24,7 @@ class Process extends Thread {
     @Override
     public void run() {
         //thread acquires lock
-        Globals.roundStarts.lock();
+        Globals.roundBegins.lock();
 
         if( this.status == -1 ) { //It is unknown / not yet defeated
             // start execution when receive signal from master to begin round
