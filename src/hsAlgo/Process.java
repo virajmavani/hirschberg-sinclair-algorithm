@@ -2,14 +2,15 @@ package hsAlgo;
 
 import java.lang.Thread;
 
-public class Process extends Thread {
-    //constructor to initialize threads/processes
+class Process extends Thread {
+
     int uid;
     MessageChannel send_to_pred;
     MessageChannel send_to_succ;
     MessageChannel recv_from_pred;
     MessageChannel recv_from_succ;
     int status; // -1 = Unknown; 1 - leader; 0 - non leader
+    
 
     public Process(int id, MessageChannel send_to_pred, MessageChannel send_to_succ, MessageChannel recv_from_pred, MessageChannel recv_from_succ) {
         this.uid = id;
